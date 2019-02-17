@@ -1036,15 +1036,15 @@ int smb345_config_thermal_suspend(void)
 	if (setting != 0x01) {
 		setting = retval & (~HOT_LIMIT_MASK);
 		setting |= 0x01;
-		SMB_NOTICE("Set HRD SFT limit, retval=%x setting=%x\n", retval, setting);
+		//SMB_NOTICE("Set HRD SFT limit, retval=%x setting=%x\n", retval, setting);
 		ret = smb345_write(client, smb345_HRD_SFT_TEMP, setting);
 		if (ret < 0) {
 			dev_err(&client->dev, "%s(): Failed in writing 0x%02x to register"
 				"0x%02x\n", __func__, setting, smb345_HRD_SFT_TEMP);
 			goto error;
 		}
-	} else
-		SMB_NOTICE("Bypass set HRD SFT limit=%x\n", retval);
+	} /*else
+	    SMB_NOTICE("Bypass set HRD SFT limit=%x\n", retval);*/
 
 	ret = smb345_volatile_writes(client, smb345_DISABLE_WRITE);
 	if (ret < 0) {
@@ -1084,8 +1084,8 @@ int smb345_config_thermal_limit(void)
 				"0x%02x\n", __func__, setting, smb345_HRD_SFT_TEMP);
 			goto error;
 		}
-	} else
-		SMB_NOTICE("Bypass set HRD SFT limit=%x\n", retval);
+	} /* else
+	     SMB_NOTICE("Bypass set HRD SFT limit=%x\n", retval);*/
 
 	ret = smb345_volatile_writes(client, smb345_DISABLE_WRITE);
 	if (ret < 0) {
@@ -1110,7 +1110,7 @@ int smb345_config_thermal_charging(int temp, int volt, int rule)
 	mdelay(100);
 	smb345_config_thermal_limit();
 
-	SMB_NOTICE("temp=%d, volt=%d\n", temp, volt);
+	//SMB_NOTICE("temp=%d, volt=%d\n", temp, volt);
 
 	ret = smb345_volatile_writes(client, smb345_ENABLE_WRITE);
 	if (ret < 0) {
@@ -1140,8 +1140,8 @@ int smb345_config_thermal_charging(int temp, int volt, int rule)
 					"0x%02x\n", __func__, setting, smb345_FLOAT_VLTG);
 				goto error;
 			}
-		} else
-			SMB_NOTICE("Bypass set Float Volt=%x\n", retval);
+		} /* else
+		     SMB_NOTICE("Bypass set Float Volt=%x\n", retval); */
 	} else {
 		if (setting != FLOAT_VOLT_LOW) {
 			setting = retval & (~FLOAT_VOLT_MASK);
@@ -1153,8 +1153,8 @@ int smb345_config_thermal_charging(int temp, int volt, int rule)
 					"0x%02x\n", __func__, setting, smb345_FLOAT_VLTG);
 				goto error;
 			}
-		} else
-			SMB_NOTICE("Bypass set Float Volt=%x\n", retval);
+		} /* else
+		     SMB_NOTICE("Bypass set Float Volt=%x\n", retval); */
 	}
 
 	/*charger enable/disable*/
@@ -1189,8 +1189,8 @@ int smb345_config_thermal_charging(int temp, int volt, int rule)
 				SMB_NOTICE("disable then enable charger to recover bat over-volt\n");
 				smb345_charger_enable(false);
 				smb345_charger_enable(true);
-			} else
-				SMB_NOTICE("Bypass charger enable\n");
+			} /* else
+			     SMB_NOTICE("Bypass charger enable\n"); */
 		}
 	}
 
